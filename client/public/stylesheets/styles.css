@@ -1,0 +1,10 @@
+/*
+  styles.css
+  Christopher James
+  301252282
+  2023-10-01
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
