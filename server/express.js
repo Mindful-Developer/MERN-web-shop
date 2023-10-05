@@ -1,10 +1,3 @@
-/*
-  express.js
-  Christopher James
-  301252282
-  2023-10-01
- */
-
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
