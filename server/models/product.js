@@ -20,9 +20,12 @@ const ProductSchema = new Schema({
         required: true
     },
     category: {
-        type: Schema.Types.ObjectId,
-        ref: 'Category'
+        type: String
     }
+    // category: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Category'
+    // }
 });
 
 module.exports = mongoose.model('Product', ProductSchema);

@@ -1,43 +1,57 @@
-const createError = require("http-errors");
+require("dotenv").config();
+
+// modules
 const express = require("express");
-const path = require("path");
+const mongoose = require("mongoose");
+const mongoSanitize = require("express-mongo-sanitize");
 const compression = require("compression");
 const cors = require("cors");
-
-const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-// route imports
-const indexRouter = require("./routes/index");
+// helpers
+const ExpressError = require("./helpers/ExpressError");
 
-const CURRENT_WORKING_DIR = process.cwd();
+// routes
+const apiRouter = require("./routes/api");
+const productRouter = require("./routes/products");
+
+// database connection
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+    console.info("Connected to MongoDB");
+});
+
+// app setup
 const app = express();
 
-//mount middleware
+// mount middleware
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(compression());
 app.use(cors());
-app.use(cookieParser());
+
+// security
+app.use(mongoSanitize());
 
 // mount routes
-app.use("/", indexRouter);
+app.use("/api", apiRouter);
+app.use("/api/products", productRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+// catch 404
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page Not Found", 404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+app.use((err, req, res, next) => {
+  const { statusCode, message } = err;
+  res.status(statusCode || 500).json({ message });
 });
 
 module.exports = app;
