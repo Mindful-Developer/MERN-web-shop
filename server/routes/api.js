@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const catchAsync = require("../helpers/catchAsync");
+const api = require("../controllers/api");
 
 /* api page. */
 
-router.get("/", function (req, res, next) {
-  res.json({ message: "Welcome to the marketplace application." });
-});
+router.route("/")
+    .get(catchAsync(api.display));
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const Product = require("../models/product");
 
 module.exports.getAll = async (req, res) => {
-    const search = req.query.search || "";
+    const search = req.query.name || "";
     const products = await Product.find({ name: { $regex: search, $options: "i" } });
     res.json(products);
 }
