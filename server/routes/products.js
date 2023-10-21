@@ -3,8 +3,7 @@ const router = express.Router();
 const catchAsync = require("../helpers/catchAsync");
 const products = require("../controllers/products");
 
-/* Product route. */
-
+// product route
 router.route("/")
     .get(catchAsync(products.getAll))
     .post(catchAsync(products.create))

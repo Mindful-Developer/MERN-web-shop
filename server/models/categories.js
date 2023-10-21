@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const CategorySchema = new Schema({
+const CategoriesSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -9,4 +9,4 @@ const CategorySchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Category', CategorySchema);
+module.exports = mongoose.model('Categories', CategoriesSchema);

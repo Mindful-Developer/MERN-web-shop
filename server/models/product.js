@@ -22,9 +22,10 @@ const ProductSchema = new Schema({
     category: {
         type: String
     }
+    // Don't need to reference the category model here, I guess.
     // category: {
     //     type: Schema.Types.ObjectId,
-    //     ref: 'Category'
+    //     ref: 'Categories'
     // }
 });
 

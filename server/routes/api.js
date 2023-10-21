@@ -3,8 +3,7 @@ const router = express.Router();
 const catchAsync = require("../helpers/catchAsync");
 const api = require("../controllers/api");
 
-/* api page. */
-
+// api route.
 router.route("/")
     .get(catchAsync(api.display));
 
